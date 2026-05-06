@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DreamTacVLA: Learning to Feel the Future</title>
+  <meta name="description" content="DreamTacVLA: A Vision-Language-Action framework grounded in contact physics for contact-rich manipulation. Submitted to ICML 2026." />
+  <meta property="og:title" content="DreamTacVLA: Learning to Feel the Future" />
+  <meta property="og:description" content="Tactile-aware VLA model that imagines future contact to refine actions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="title">Learning to Feel the Future:<br/><span class="accent">DreamTacVLA</span> for Contact-Rich Manipulation</h1>
+
+      <div class="authors">
+        <span class="author">Guo Ye, Zexi Zhang, Xu Zhao, Shang Wu, Haoran Lu, Shihan Lu, Han Liu</span>
+      </div>
+
+      <!-- <div class="affil">Submitted to ICML 2026 &middot; Under Review</div> -->
+
+      <div class="links">
+        <a class="btn" href="https://arxiv.org/abs/2512.23864" target="_blank" rel="noopener">
+          <span class="ico">&#128196;</span> Paper
+        </a>
+        <a class="btn" href="https://arxiv.org/abs/2512.23864" target="_blank" rel="noopener">
+          <span class="ico">&#128221;</span> arXiv
+        </a>
+        <a class="btn" href="https://github.com/michaelyeah7/learning-to-feel-the-future" target="_blank" rel="noopener">
+          <span class="ico">&#128187;</span> Code
+        </a>
+        <a class="btn" href="#bibtex">
+          <span class="ico">&#128221;</span> BibTeX
+        </a>
+      </div>
+
+      <div class="tldr">
+        <strong>TL;DR.</strong> DreamTacVLA grounds VLA models in contact physics by
+        <em>aligning seeing with feeling</em> and <em>predicting future tactile signals</em>,
+        achieving up to <strong>95% success</strong> on contact-rich manipulation.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TEASER ===================== -->
+  <section class="section">
+    <div class="container">
+      <figure class="teaser">
+        <video class="teaser-video" autoplay loop muted playsinline>
+          <source src="assets/videos/model_rollouts_on_4_tasks.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <figcaption>
+          The <strong>Think&ndash;Dream&ndash;Act</strong> loop. The policy drafts an action,
+          the tactile world model dreams its contact consequences, and the policy acts on a refined command.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== ABSTRACT ===================== -->
+  <section class="section bg-soft">
+    <div class="container narrow">
+      <h2>Abstract</h2>
+      <p>
+        Vision-Language-Action (VLA) models have shown remarkable generalization by mapping
+        web-scale knowledge to robotic control, yet they remain blind to physical contact.
+        Consequently, they struggle with contact-rich manipulation tasks that require reasoning
+        about force, texture, and slip. While some approaches incorporate low-dimensional tactile
+        signals, they fail to capture the high-resolution dynamics essential for such interactions.
+      </p>
+      <p>
+        To address this limitation, we introduce <strong>DreamTacVLA</strong>, a framework that
+        grounds VLA models in contact physics by <em>learning to feel the future</em>. Our model
+        adopts a hierarchical perception scheme in which high-resolution tactile images serve as
+        micro-vision inputs, coupled with wrist-camera local vision and third-person macro vision.
+        We first train a unified policy with a <strong>Hierarchical Spatial Alignment (HSA) loss</strong>
+        that aligns tactile tokens with their spatial counterparts in the wrist and third-person views.
+        We then finetune the system with a <strong>tactile world model</strong> that predicts future
+        tactile signals. Across contact-rich manipulation tasks, DreamTacVLA outperforms state-of-the-art
+        VLA baselines, achieving up to <strong>95% success</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== METHOD ===================== -->
+  <section class="section">
+    <div class="container">
+      <h2>Method</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-num">1</div>
+          <h3>Hierarchical Spatial Alignment</h3>
+          <p>
+            We align <em>macro</em> (third-person), <em>local</em> (wrist), and <em>micro</em>
+            (tactile) views into a single latent space using an InfoNCE-style loss over activated
+            tactile pixels and their visual counterparts.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-num">2</div>
+          <h3>Tactile World Model</h3>
+          <p>
+            A frozen V-JEPA2 backbone, finetuned on our tactile data, predicts future tactile
+            embeddings conditioned on a draft action &mdash; an implicit physics engine for contact.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-num">3</div>
+          <h3>Think &ndash; Dream &ndash; Act</h3>
+          <p>
+            The policy first <em>thinks</em> a draft action, <em>dreams</em> its tactile future,
+            and <em>acts</em> on a refined command &mdash; producing fine-grained corrections without
+            an explicit planner.
+          </p>
+        </div>
+      </div>
+
+      <figure class="figure">
+        <a href="assets/images/architecture.pdf" target="_blank" rel="noopener">
+          <img class="architecture-img" src="assets/images/architecture.png" alt="Overall architecture of DreamTacVLA" />
+        </a>
+        <figcaption>Overall architecture of DreamTacVLA.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== TASKS ===================== -->
+  <section class="section bg-soft" id="tasks">
+    <div class="container">
+      <h2>Four Contact-Rich Tasks</h2>
+      <p class="section-lead">
+        We evaluate DreamTacVLA on four tasks demanding precise, contact-rich manipulation
+        &mdash; tight tolerances, slip detection, and stable tool contact.
+      </p>
+
+      <div class="grid-2">
+
+        <!-- Task 1 -->
+        <article class="task-card">
+          <div class="media">
+            <video class="task-video" autoplay loop muted playsinline>
+              <source src="assets/videos/peg_in_hole/peg_in_hole.mp4" type="video/mp4" />
+            </video>
+            <div class="placeholder media-placeholder">
+              <span>Drop video / GIF here</span>
+              <small><code>assets/videos/peg_in_hole.mp4</code> or <code>.gif</code></small>
+            </div>
+          </div>
+          <div class="task-body">
+            <div class="task-tag">Task 1</div>
+            <h3>Peg-in-Hole</h3>
+            <p>
+              Classic high-precision insertion. The port is partially occluded, forcing the
+              policy to rely on tactile feedback for the final alignment.
+            </p>
+            <div class="metric">Success: <strong>95.0%</strong></div>
+          </div>
+        </article>
+
+        <!-- Task 2 -->
+        <article class="task-card">
+          <div class="media">
+            <video class="task-video" autoplay loop muted playsinline>
+              <source src="assets/videos/insert_usb/insert_usb.mp4" type="video/mp4" />
+            </video>
+            <div class="placeholder media-placeholder">
+              <span>Drop video / GIF here</span>
+              <small><code>assets/videos/usb_insert.mp4</code> or <code>.gif</code></small>
+            </div>
+          </div>
+          <div class="task-body">
+            <div class="task-tag">Task 2</div>
+            <h3>USB Insertion</h3>
+            <p>
+              Inserting a USB-A plug into a port with sub-millimeter tolerances that are
+              ambiguous from vision alone.
+            </p>
+            <div class="metric">Success: <strong>85.7%</strong></div>
+          </div>
+        </article>
+
+        <!-- Task 3 -->
+        <article class="task-card">
+          <div class="media">
+            <video class="task-video" autoplay loop muted playsinline>
+              <source src="assets/videos/gear_assembly/gear_assembly.mp4" type="video/mp4" />
+            </video>
+            <div class="placeholder media-placeholder">
+              <span>Drop video / GIF here</span>
+              <small><code>assets/videos/gear_assembly.mp4</code> or <code>.gif</code></small>
+            </div>
+          </div>
+          <div class="task-body">
+            <div class="task-tag">Task 3</div>
+            <h3>Gear Assembly</h3>
+            <p>
+              Sliding a small gear onto a shaft. Requires aligning the gear's hole with the
+              shaft &mdash; easily failed by misalignment.
+            </p>
+            <div class="metric">Success: <strong>81.1%</strong></div>
+          </div>
+        </article>
+
+        <!-- Task 4 -->
+        <article class="task-card">
+          <div class="media">
+            <video class="task-video" autoplay loop muted playsinline>
+              <source src="assets/videos/tool_stabalization/tool_stabalization.mp4" type="video/mp4" />
+            </video>
+            <div class="placeholder media-placeholder">
+              <span>Drop video / GIF here</span>
+              <small><code>assets/videos/tool_stabilize.mp4</code> or <code>.gif</code></small>
+            </div>
+          </div>
+          <div class="task-body">
+            <div class="task-tag">Task 4</div>
+            <h3>Tool Stabilization</h3>
+            <p>
+              Grip a cube and use one of its vertices to support a thin vertical cylinder,
+              maintaining its upright pose under small disturbances.
+            </p>
+            <div class="metric">Success: <strong>74.6%</strong></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RESULTS ===================== -->
+  <section class="section" id="results">
+    <div class="container">
+      <h2>Results</h2>
+      <p class="section-lead">
+        Real-world success rates over 100 trials per task (mean &plusmn; std across 3 runs).
+      </p>
+
+      <div class="table-wrap">
+        <table class="results">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Peg-in-Hole</th>
+              <th>USB Insert</th>
+              <th>Gear Assembly</th>
+              <th>Tool Stabilize</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ACT</td>
+              <td>35.2 &plusmn; 0.7</td>
+              <td>62.6 &plusmn; 0.5</td>
+              <td>22.4 &plusmn; 0.8</td>
+              <td>19.3 &plusmn; 0.6</td>
+            </tr>
+            <tr>
+              <td>Diffusion Policy</td>
+              <td>35.5 &plusmn; 0.9</td>
+              <td>56.3 &plusmn; 0.8</td>
+              <td>33.1 &plusmn; 0.7</td>
+              <td>30.4 &plusmn; 0.9</td>
+            </tr>
+            <tr>
+              <td>&pi;<sub>0</sub></td>
+              <td>48.7 &plusmn; 1.0</td>
+              <td>59.4 &plusmn; 0.9</td>
+              <td>45.2 &plusmn; 1.1</td>
+              <td>41.0 &plusmn; 0.8</td>
+            </tr>
+            <tr>
+              <td>ACT (w/ Tactile)</td>
+              <td>45.6 &plusmn; 0.3</td>
+              <td>63.1 &plusmn; 0.4</td>
+              <td>40.2 &plusmn; 0.2</td>
+              <td>39.1 &plusmn; 0.7</td>
+            </tr>
+            <tr><td colspan="5" class="rule"></td></tr>
+            <tr>
+              <td>Ours (HSA only)</td>
+              <td>60.8 &plusmn; 0.9</td>
+              <td>63.7 &plusmn; 0.8</td>
+              <td>51.5 &plusmn; 1.0</td>
+              <td>42.9 &plusmn; 0.7</td>
+            </tr>
+            <tr>
+              <td>Ours (Dream only)</td>
+              <td>75.4 &plusmn; 0.8</td>
+              <td>75.2 &plusmn; 0.7</td>
+              <td>64.9 &plusmn; 0.6</td>
+              <td>68.5 &plusmn; 0.9</td>
+            </tr>
+            <tr class="best">
+              <td><strong>Ours (HSA &amp; Dream)</strong></td>
+              <td><strong>95.0 &plusmn; 0.2</strong></td>
+              <td><strong>85.7 &plusmn; 0.6</strong></td>
+              <td><strong>81.1 &plusmn; 0.4</strong></td>
+              <td><strong>74.6 &plusmn; 0.5</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DATASET ===================== -->
+  <section class="section bg-soft">
+    <div class="container">
+      <h2>Hybrid Tactile Dataset</h2>
+      <div class="stats">
+        <div class="stat"><div class="num">2M</div><div class="lbl">Tactile frames</div></div>
+        <div class="stat"><div class="num">4</div><div class="lbl">Manipulation tasks</div></div>
+        <div class="stat"><div class="num">9</div><div class="lbl">Objects</div></div>
+        <div class="stat"><div class="num">80/20</div><div class="lbl">Sim / Real split</div></div>
+      </div>
+      <figure class="figure">
+        <a href="assets/images/sim_real1.pdf" target="_blank" rel="noopener">
+          <img class="dataset-img" src="assets/images/sim_real1.png" alt="Sim and real data examples" />
+        </a>
+        <figcaption>
+          A high-fidelity digital twin generates the bulk of demonstrations, complemented by real-world rollouts.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== BIBTEX ===================== -->
+  <section class="section" id="bibtex">
+    <div class="container narrow">
+      <h2>BibTeX</h2>
+      <pre class="bib"><code>@article{ye2025learning,
+  title={Learning to Feel the Future: DreamTacVLA for Contact-Rich Manipulation},
+  author={Ye, Guo and Zhang, Zexi and Zhao, Xu and Wu, Shang and Lu, Haoran and Lu, Shihan and Liu, Han},
+  journal={arXiv preprint arXiv:2512.23864},
+  year={2025}
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <p>
+        &copy; 2026 DreamTacVLA Authors.
+        Page template adapted from the
+        <a href="https://github.com/nerfies/nerfies.github.io" target="_blank" rel="noopener">Nerfies</a>
+        academic project page.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Hide media placeholders if a video file actually loads
+    document.querySelectorAll('.task-video').forEach(v => {
+      v.addEventListener('loadeddata', () => {
+        const ph = v.parentElement.querySelector('.media-placeholder');
+        if (ph) ph.style.display = 'none';
+        v.style.display = 'block';
+      });
+      v.addEventListener('error', () => {
+        v.style.display = 'none';
+      });
+      // Initially hide video until it loads
+      v.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
