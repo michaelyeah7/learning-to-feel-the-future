@@ -1,0 +1,101 @@
+# Third-Party Licenses
+
+This project incorporates source code, pretrained model interfaces, and tooling
+from the following projects. All code in this repository is released under the
+MIT License (see [LICENSE](LICENSE)); however, certain pretrained weights that
+users may download separately (e.g. V-JEPA / V-JEPA 2) are governed by their
+own non-commercial terms — see the relevant entry below.
+
+---
+
+## ACT / Mobile ALOHA — Imitation Learning algorithms and Co-training
+
+- **Author**: Tony Z. Zhao
+- **License**: MIT
+- **Copyright**: Copyright (c) 2023 Tony Z. Zhao
+- **Reference**: https://github.com/MarkFzp/act-plus-plus
+- **Used in**: `ModelTrain/detr/`, transformer policy backbone in
+  `ModelTrain/module/`.
+
+## GELLO — Low-Cost Teleoperation Framework for Robot Manipulators
+
+- **Author**: Philipp Wu
+- **License**: MIT
+- **Copyright**: Copyright (c) 2023 Philipp Wu
+- **Reference**: https://github.com/wuphilipp/gello_software
+- **Used in**: `dobot_control/dynamixel/`, `dobot_control/agents/`,
+  teleoperation utilities under `scripts/`.
+
+## CLIP
+
+- **Author**: OpenAI
+- **License**: MIT
+- **Copyright**: Copyright (c) 2021 OpenAI
+- **Reference**: https://github.com/openai/CLIP
+- **Used in**: RGB encoder used as the macro / local vision branch
+  (`ModelTrain/module/clip_encoder.py`).
+
+## open_clip
+
+- **Author**: ML Foundations
+- **License**: MIT-style (see upstream)
+- **Reference**: https://github.com/mlfoundations/open_clip
+- **Used in**: `open_clip_torch` is a runtime dependency
+  (see `requirements.txt`) used to load CLIP variants such as `ViT-B-16`.
+
+## V-JEPA / V-JEPA 2
+
+- **Author**: Meta AI Research / FAIR
+- **Code License**: MIT (Apache-style for some components — consult upstream)
+- **Pretrained Weights License**: **CC BY-NC 4.0** (non-commercial)
+- **Reference**: https://github.com/facebookresearch/jepa  ·
+  https://github.com/facebookresearch/vjepa2
+- **Used in**: tactile world model and ViT backbone code under
+  `ModelTrain/vjepa2_compat/`. **Note:** the pretrained ViT-L/ViT-G weights
+  distributed by Meta are released under CC BY-NC 4.0 — using them in a
+  commercial product is **not** permitted by the upstream license, even
+  though the code in this repository is MIT.
+
+## robomimic
+
+- **Author**: ARISE Initiative (Stanford)
+- **License**: MIT
+- **Copyright**: Copyright (c) 2021 Stanford Vision and Learning Lab
+- **Reference**: https://github.com/ARISE-Initiative/robomimic
+- **Used in**: `robomimic-r2d2/` (vendored fork used for dataset / policy
+  utilities). The original `LICENSE` is preserved inside that subdirectory.
+
+## Dynamixel SDK
+
+- **Author**: ROBOTIS
+- **License**: Apache License 2.0
+- **Reference**: https://github.com/ROBOTIS-GIT/DynamixelSDK
+- **Used in**: `third_party/DynamixelSDK/` — vendored for offline use with
+  the Dynamixel-based teleoperation arm.
+
+## Feetech SDK
+
+- **Author**: Feetech RC Model Co., Ltd.
+- **License**: see upstream — typically MIT / public-sample
+- **Reference**: https://gitee.com/ftservo/SCServoSDK or upstream Feetech
+  distribution
+- **Used in**: `third_party/feetech/` — vendored for Feetech servo support
+  in the teleoperation main hand.
+
+## Dobot X-Trainer / DobotSCStudio components
+
+- **Author**: Shenzhen Yuejiang Technology Co., Ltd. (Dobot)
+- **License**: MIT
+- **Copyright**: Copyright (c) 2024 Shenzhen Yuejiang Technology Co., Ltd.
+- **Used in**: `dobot_control/robots/`, `dobot_control/cameras/`,
+  `dobot_control/gripper/`, `dobot_control/env.py`, and parts of
+  `scripts/` (data collection pipeline).
+
+---
+
+## License Texts
+
+The full text of each third-party license is available in the upstream
+repository linked above. The `LICENSE` files for vendored copies that are
+shipped inside this repository (e.g. `robomimic-r2d2/LICENSE`,
+`ModelTrain/detr/LICENSE`) are preserved verbatim alongside the code.

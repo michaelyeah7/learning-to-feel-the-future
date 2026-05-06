@@ -1,0 +1,114 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.pyc
+.Python
+
+# Virtual Environments
+venv/
+env/
+ENV/
+Xtrainer/
+.venv
+
+# IDEs and Editors
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Dataset files (large files)
+datasets/
+*.hdf5
+*.h5
+*.png
+*.jpg
+*.gif
+
+# Keep README/paper figures
+!docs/figures/**
+
+# Model checkpoints and weights (large files)
+*.ckpt
+*.pth
+*.pt
+*.safetensors
+*.pkl
+ModelTrain/ckpt/
+*.weights
+
+# Training outputs
+*.log
+logs/
+*.txt.log
+scripts/logs/
+
+# Videos (large files)
+*.mp4
+*.avi
+*.mov
+output_videos/
+
+# Images (optional - uncomment if you don't want to track images)
+# *.jpg
+# *.jpeg
+# *.png
+# *.gif
+
+# Camera calibration and config (optional - be careful with these)
+# You may want to track some config files
+# dobot_config/*.ini
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+.pytest_cache/
+.coverage
+
+# OS-specific
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Compiled files
+*.o
+*.a
+*.lib
+*.dll
+*.dylib
+
+# Documentation builds
+docs/_build/
+site/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
+
+# Environment variables
+.env
+.env.local
+
+# Profiling data
+*.prof
+*.lprof
+
