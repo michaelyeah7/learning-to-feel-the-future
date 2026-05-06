@@ -112,3 +112,6 @@ dmypy.json
 *.prof
 *.lprof
 
+# Keep website assets (served via GitHub Pages)
+!docs/assets/**
+
